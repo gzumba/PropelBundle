@@ -144,4 +144,9 @@ class PropelDataCollector extends DataCollector
     {
         return count($this->logger->getQueries());
     }
+
+    public function reset()
+    {
+        // Sf4 required method
+    }
 }
