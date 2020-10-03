@@ -40,7 +40,7 @@ class PropelDataCollector extends DataCollector
     /**
      * Constructor.
      *
-     * @param PropelLogger         $logger              A Propel logger.
+     * @param PropelLogger $logger A Propel logger.
      * @param \PropelConfiguration $propelConfiguration The Propel configuration object.
      */
     public function __construct(PropelLogger $logger, \PropelConfiguration $propelConfiguration)
@@ -99,7 +99,7 @@ class PropelDataCollector extends DataCollector
     {
         $time = 0;
         foreach ($this->data['queries'] as $query) {
-            $time += (float) $query['time'];
+            $time += (float)$query['time'];
         }
 
         return $time;
@@ -145,8 +145,12 @@ class PropelDataCollector extends DataCollector
         return count($this->logger->getQueries());
     }
 
+    /**
+     * Resets this data collector to its initial state.
+     */
     public function reset()
     {
-        // Sf4 required method
+        $this->data = array();
+        $this->logger->reset();
     }
 }
