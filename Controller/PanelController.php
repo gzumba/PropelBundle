@@ -10,7 +10,6 @@
 namespace Propel\Bundle\PropelBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -20,8 +19,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class PanelController extends AbstractController
 {
-    use ContainerAwareTrait;
-
     /**
      * This method renders the global Propel configuration.
      *
