@@ -9,7 +9,7 @@
  */
 namespace Propel\Bundle\PropelBundle\Controller;
 
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author William DURAND <william.durand1@gmail.com>
  */
-class PanelController implements ContainerAwareInterface
+class PanelController extends AbstractController
 {
     use ContainerAwareTrait;
 
@@ -29,19 +29,16 @@ class PanelController implements ContainerAwareInterface
      */
     public function configurationAction()
     {
-        $templating = $this->container->get('templating');
-        $propelConfiguration = $this->container->get('propel.configuration');
-
-        return $templating->renderResponse(
-            'PropelBundle:Panel:configuration.html.twig',
-            array(
+        return $this->render(
+            '@Propel/Panel/configuration.html.twig',
+            [
                 'propel_version'     => \Propel::VERSION,
-                'configuration'      => $propelConfiguration->getParameters(),
-                'default_connection' => $this->container->getParameter('propel.dbal.default_connection'),
-                'logging'            => $this->container->getParameter('propel.logging'),
-                'path'               => $this->container->getParameter('propel.path'),
-                'phing_path'         => $this->container->getParameter('propel.phing_path'),
-            )
+                'configuration'      => $this->getParameter('propel.configuration'),
+                'default_connection' => $this->getParameter('propel.dbal.default_connection'),
+                'logging'            => $this->getParameter('propel.logging'),
+                'path'               => $this->getParameter('propel.path'),
+                'phing_path'         => $this->getParameter('propel.phing_path'),
+            ]
         );
     }
 
@@ -56,7 +53,7 @@ class PanelController implements ContainerAwareInterface
      */
     public function explainAction($token, $connection, $query)
     {
-        $profiler = $this->container->get('profiler');
+        $profiler = $this->get('profiler');
         $profiler->disable();
 
         $profile = $profiler->loadProfile($token);
@@ -79,8 +76,7 @@ class PanelController implements ContainerAwareInterface
             return new Response('<div class="error">This query cannot be explained.</div>');
         }
 
-        return $this->container->get('templating')->renderResponse(
-            'PropelBundle:Panel:explain.html.twig',
+        return $this->render('@Propel/Panel/explain.html.twig',
             array(
                 'data' => $results,
                 'query' => $query,
