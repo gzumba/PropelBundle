@@ -10,6 +10,7 @@
 namespace Propel\Bundle\PropelBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -19,6 +20,12 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class PanelController extends AbstractController
 {
+    private \PropelConfiguration $propelConfiguration;
+
+    public function __construct(\PropelConfiguration $propelConfiguration)
+    {
+        $this->propelConfiguration = $propelConfiguration;
+    }
     /**
      * This method renders the global Propel configuration.
      *
@@ -30,7 +37,7 @@ class PanelController extends AbstractController
             '@Propel/Panel/configuration.html.twig',
             [
                 'propel_version'     => \Propel::VERSION,
-                'configuration'      => $this->getParameter('propel.configuration'),
+                'configuration'      => $this->propelConfiguration->getParameters(),
                 'default_connection' => $this->getParameter('propel.dbal.default_connection'),
                 'logging'            => $this->getParameter('propel.logging'),
                 'path'               => $this->getParameter('propel.path'),
