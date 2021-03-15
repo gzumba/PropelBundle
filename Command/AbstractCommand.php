@@ -9,8 +9,10 @@
  */
 namespace Propel\Bundle\PropelBundle\Command;
 
+use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Config\FileLocatorInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -26,7 +28,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
  * @author Fabien Potencier <fabien.potencier@symfony-project.com>
  * @author William DURAND <william.durand1@gmail.com>
  */
-abstract class AbstractCommand extends ContainerAwareCommand
+abstract class AbstractCommand extends Command
 {
     /**
      * Additional Phing args to add in specialized commands.
@@ -73,6 +75,13 @@ abstract class AbstractCommand extends ContainerAwareCommand
      * @var \Symfony\Component\Config\FileLocatorInterface
      */
     protected $fileLocator;
+    private ContainerInterface $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        parent::__construct();
+        $this->container = $container;
+    }
 
     /**
      * Set relation on FileLocator
@@ -733,5 +742,10 @@ EOT;
         $args[] = realpath($this->getContainer()->getParameter('propel.path').'/generator/build.xml');
 
         return $args;
+    }
+
+    protected function getContainer(): ContainerInterface
+    {
+        return $this->container;
     }
 }

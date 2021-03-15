@@ -71,6 +71,8 @@ EOT
         } else {
             $output->writeln('<error>You have to use --force to execute all SQL statements.</error>');
         }
+
+        return 0;
     }
 
     protected function getSqlDir()
