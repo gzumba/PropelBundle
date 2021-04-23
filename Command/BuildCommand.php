@@ -75,5 +75,7 @@ class BuildCommand extends AbstractCommand
             $insertCommand = $this->getApplication()->find('propel:sql:insert');
             $insertCommand->run($in, $output);
         }
+
+        return 0;
     }
 }

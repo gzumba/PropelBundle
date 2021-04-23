@@ -90,7 +90,11 @@ EOT
                 '',
                 'An error has occured during the "propel:sql:build" command process. To get more details, run the command with the "--verbose" option.',
             ), 'fg=white;bg=red');
+
+            return 1;
         }
+
+        return 0;
     }
 
     /**
